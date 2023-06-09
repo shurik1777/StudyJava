@@ -1,17 +1,72 @@
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
 
-        task1();
-        task2();
-        task3();
-        String[] lines = {"dom", "domovoy", "domashniy"};
-        int prefixLen = findPrefix(lines);
-        System.out.println(prefixLen);
-        task4();
+//        task1();
+//        task2();
+//        task3();
+//        String[] lines = {"dom", "domovoy", "domashniy"};
+//        int prefixLen = findPrefix(lines);
+//        System.out.println(prefixLen);
+//        task4();
+//        task5();
+//        task6();
+        task7();
+    }
+
+    private static void task7() { try {
+        FileWriter fileWriter = new FileWriter("data.txt");
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        bufferedWriter.write("Name Surname Age");
+        bufferedWriter.newLine();
+        bufferedWriter.write("Kate Smith 20");
+        bufferedWriter.newLine();
+        bufferedWriter.write("Paul Green 25");
+        bufferedWriter.newLine();
+        bufferedWriter.write("Mike Black 23");
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+        fileWriter.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    }
+
+    private static void task6() {
+
+        int[] nums = {1, 7, 3, 6, 5, 6};
+        int leftSum = 0;
+        int rightSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            rightSum += nums[i];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            rightSum -= nums[i];
+            if (leftSum == rightSum) {
+                System.out.println("Индекс: " + i);
+                return;
+            }
+            leftSum += nums[i];
+        }
+        System.out.println("Такой индекс не найден");
+    }
+
+
+    private static void task5() {
+        String sourceLn = "Welcome To Java Cource";
+        String[] splitLn = sourceLn.split(" ");
+        String outLn = "";
+        for (int i = splitLn.length - 1; i >= 0; i--) {
+            outLn = outLn + splitLn[i] + " ";
+        }
+        System.out.println(sourceLn);
+        System.out.println(outLn);
     }
 
     private static void task4() {
