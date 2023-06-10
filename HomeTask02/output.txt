@@ -1,0 +1,1 @@
+select * from students where country = 'Russia' and city = 'Moscow' and name = 'Ivanov'
