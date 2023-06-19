@@ -1,86 +1,114 @@
 package Solution;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-public class Calculator {
-    /*
-  Задание
-3(со звездочкой) В калькулятор добавьте возможность отменить последнюю операцию.
+/*
+3(со звездочкой)
+В калькулятор добавьте возможность отменить последнюю операцию.
 Калькулятор сделать на основе программы разработанной на семинаре.
-   */
+*/
+public class Calculator {
+    private List<Double> history = new ArrayList<>();
+    private double currentResult = 0.0;
 
-    private LinkedList<Double> operands = new LinkedList<>();
-    private LinkedList<Character> operators = new LinkedList<>();
-
-    public void push(double num) {
-        operands.add(num);
-    }
-
-    public void push(char op) {
-        operators.add(op);
-    }
-
-    public double evaluate() {
-        while (!operators.isEmpty()) {
-            char op = operators.removeLast();
-            double num2 = operands.removeLast();
-            double num1 = operands.removeLast();
-            switch (op) {
-                case '+':
-                    push(num1 + num2);
-                    break;
-                case '-':
-                    push(num1 - num2);
-                    break;
-                case '*':
-                    push(num1 * num2);
-                    break;
-                case '/':
-                    push(num1 / num2);
-                    break;
-            }
-        }
-        return operands.getLast();
-    }
-
-    public static double evaluateExpression(String expression) throws IllegalArgumentException {
-        Calculator calculator = new Calculator();
-        String[] tokens = expression.split(" ");
-        for (String token : tokens) {
-            switch (token) {
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Введите целое число или операцию для сохранения (+, -, *, /, undo):");
+            String input = scanner.nextLine();
+            switch (input) {
                 case "+":
+                    add(scanner);
+                    break;
                 case "-":
+                    subtract(scanner);
+                    break;
                 case "*":
+                    multiply(scanner);
+                    break;
                 case "/":
-                    if (calculator.operands.size() >= 2) {
-                        double num2 = calculator.operands.removeLast();
-                        double num1 = calculator.operands.removeLast();
-                        char op = token.charAt(0);
-                        calculator.push(num1);
-                        calculator.push(num2);
-                        calculator.push(op);
-                    } else {
-                        throw new IllegalArgumentException("Невозможно выполнить операцию без двух номеров.");
-                    }
+                    divide(scanner);
+                    break;
+                case "exit":
+                    exit = true;
+                    System.out.println("Программа завершена.");
+                    break;
+                case "undo":
+                    undo();
                     break;
                 default:
                     try {
-                        double num = Double.parseDouble(token);
-                        calculator.push(num);
+                        double operand = Double.parseDouble(input);
+                        history.add(currentResult);
+                        currentResult = operand;
+                        System.out.println("Результат: " + currentResult);
                     } catch (NumberFormatException e) {
-                        throw new IllegalArgumentException("Неверный Ввод. Пожалуйста, введите номер или оператора.");
+                        System.out.println("Некорректный ввод!");
                     }
-                    break;
             }
         }
-        return calculator.evaluate();
     }
 
-    public void undo() {
-        if (!operators.isEmpty()) {
-            operators.removeLast();
-        } else if (!operands.isEmpty()) {
-            operands.removeLast();
+    private void add(Scanner scanner) {
+        System.out.println("Введите число:");
+        double operand = getOperand(scanner);
+        history.add(currentResult);
+        currentResult += operand;
+        System.out.println("Результат: " + currentResult);
+    }
+
+    private void subtract(Scanner scanner) {
+        System.out.println("Введите число:");
+        double operand = getOperand(scanner);
+        history.add(currentResult);
+        currentResult -= operand;
+        System.out.println("Результат: " + currentResult);
+    }
+
+    private void multiply(Scanner scanner) {
+        System.out.println("Введите число:");
+        double operand = getOperand(scanner);
+        history.add(currentResult);
+        currentResult *= operand;
+        System.out.println("Результат: " + currentResult);
+    }
+
+    private void divide(Scanner scanner) {
+        System.out.println("Введите число:");
+        double operand = getOperand(scanner);
+        if (operand == 0.0) {
+            System.out.println("Деление на ноль невозможно!");
+        } else {
+            history.add(currentResult);
+            currentResult /= operand;
+            System.out.println("Результат: " + currentResult);
+        }
+    }
+
+    private double getOperand(Scanner scanner) {
+        double operand = 0.0;
+        boolean validInput = false;
+        while (!validInput) {
+            String input = scanner.nextLine();
+            try {
+                operand = Double.parseDouble(input);
+                validInput = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Некорректный ввод! Введите число.");
+            }
+        }
+        return operand;
+    }
+
+    private void undo() {
+        if (history.size() > 0) {
+            currentResult = history.remove(history.size() - 1);
+            System.out.println("Отмена последней операции. Результат: " + currentResult);
+        } else {
+            System.out.println("Нечего отменять!");
         }
     }
 }

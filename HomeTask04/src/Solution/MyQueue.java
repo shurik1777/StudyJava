@@ -1,8 +1,12 @@
 package Solution;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-
+/*
+2. Реализуйте очередь с помощью LinkedList со следующими методами:
+enqueue() - помещает элемент в конец очереди,
+dequeue() - возвращает первый элемент из очереди и удаляет его,
+first() - возвращает первый элемент из очереди, не удаляя.
+*/
 public class MyQueue<T> {
     private LinkedList<T> queue = new LinkedList<>();
 
@@ -11,7 +15,7 @@ public class MyQueue<T> {
         queue.addLast(element);
     }
 
-    // возвращает первый элемент из очереди и удаляет его,
+    // возвращает первый элемент из очереди и удаляет его
     public T dequeue() {
         return queue.removeFirst();
     }

@@ -1,24 +1,20 @@
 import Solution.ArrayStack;
 import Solution.Calculator;
-import Solution.LinkedListReverser;
+import Solution.LinkListSolution;
 import Solution.MyQueue;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+
         // Создаем исходный список
         LinkedList<Integer> list = new LinkedList<>(Arrays.asList(56, 34, 222, 342, 555));
         System.out.println("Исходный список: " + list);
 
-        // Создаем объект Task1
-        LinkedListReverser task = new LinkedListReverser();
-
-        // Получаем перевернутый список
-        LinkedList<Integer> reversedList = task.reverseLinkedList(list);
-        System.out.println("Перевернутый список: " + reversedList);
+        LinkListSolution.run();
 
         MyQueue<String> queue = new MyQueue<>();
         queue.enqueue("раз");
@@ -28,6 +24,9 @@ public class Main {
         System.out.println(queue.first()); // "раз"
         System.out.println(queue.dequeue()); // "раз"
         System.out.println(queue.first()); // "два"
+
+        Calculator calculator = new Calculator();
+        calculator.start();
 
         // Создаем новый стек с начальной емкостью 5.
         ArrayStack<Integer> stack = new ArrayStack<>(9);
@@ -57,5 +56,7 @@ public class Main {
 
         // Выводим все элементы стека
         System.out.println("Stack: " + Arrays.toString(stack.stack));
+
     }
 }
+
