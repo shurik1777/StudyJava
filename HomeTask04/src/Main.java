@@ -28,7 +28,7 @@ public class Main {
         Calculator calculator = new Calculator();
         calculator.start();
 
-        // Создаем новый стек с начальной емкостью 5.
+        // Создаем новый стек с начальной емкостью 9.
         ArrayStack<Integer> stack = new ArrayStack<>(9);
 
         // Добавляем элементы в стек
