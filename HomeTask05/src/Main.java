@@ -1,11 +1,12 @@
 import HashMapPhone.PhoneBook;
-import KnightMove.KnightTour;
 import Queen.EightQueens;
+import KnightMove.Ktour;
 
 import static HeapSortTask.SortPyramidal.sort;
 
 public class Main {
     public static void main(String[] args)  {
+
 
 //        PhoneBook phonebook = new PhoneBook();
 //        phonebook.addContact("Иван", "9047804578");
@@ -27,8 +28,7 @@ public class Main {
 //        EightQueens solver = new EightQueens();
 //        solver.placeQueens();
 
-
-        KnightTour.main(args);
+        new Ktour();
 
     }
 
