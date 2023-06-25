@@ -10,14 +10,16 @@ public class MobilePhoneStructureAdnCriteria {
     private String os;
     private String color;
     private double screenSize;
+    private long id;
 
-    public MobilePhoneStructureAdnCriteria(String model, int ram, int storage, String os, String color, double screenSize) {
+    public MobilePhoneStructureAdnCriteria(String model, int ram, int storage, String os, String color, double screenSize, long id) {
         this.model = model;
         this.ram = ram;
         this.storage = storage;
         this.os = os;
         this.color = color;
         this.screenSize = screenSize;
+        this.id = id;
     }
 
     // геттеры и сеттеры:
@@ -69,8 +71,17 @@ public class MobilePhoneStructureAdnCriteria {
         this.screenSize = screenSize;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
+        // метод проверяет равенство объектов по всем полям класса
         if (this == o) return true;
         if (!(o instanceof MobilePhoneStructureAdnCriteria)) return false;
         MobilePhoneStructureAdnCriteria that = (MobilePhoneStructureAdnCriteria) o;
@@ -79,26 +90,33 @@ public class MobilePhoneStructureAdnCriteria {
                 getStorage() == that.getStorage() &&
                 getModel().equals(that.getModel()) &&
                 getOs().equals(that.getOs()) &&
-                getColor().equals(that.getColor());
+                getColor().equals(that.getColor()) &&
+                getId() == that.getId();
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getModel(), getRam(), getStorage(), getOs(), getColor(), getScreenSize());
+        // метод вычисляет хеш-код объекта на основе значений всех полей класса
+        return Objects.hash(getModel(), getRam(), getStorage(), getOs(), getColor(), getScreenSize(), getId());
     }
 
     @Override
     public String toString() {
+        // метод возвращает строковое представление объекта в виде текстовой строки, содержащей все поля класса
         return "\n\nМобильный телефон --> " +
                 "Модель = <" + model + '>' +
                 ", Оперативная память = " + ram +
                 ", Накопитель = " + storage +
                 ", Операционная система = '" + os + '\'' +
                 ", Цвет = '" + color + '\'' +
-                ", Диагональ экрана = " + screenSize + "\" дюймов";
+                ", Диагональ экрана = " + screenSize + "\" дюймов" +
+                ", Id = " + id;
     }
 
     public static List<MobilePhoneStructureAdnCriteria> filterMobilePhones(List<MobilePhoneStructureAdnCriteria> phones, Map<String, Object> criteria) {
+        // Статический метод принимает в качестве первого аргумента список объектов phones, а в качестве второго аргумента критерии отбора объектов из списка.
+        // Возвращает список объектов phones, которые удовлетворяют переданным критериям.
         List<MobilePhoneStructureAdnCriteria> result = new ArrayList<>();
         for (MobilePhoneStructureAdnCriteria phone : phones) {
             boolean match = true;
@@ -131,6 +149,11 @@ public class MobilePhoneStructureAdnCriteria {
                             match = false;
                         }
                         break;
+                    case "Id":
+                        if (phone.getId() < (long) value) {
+                            match = false;
+                        }
+                        break;
                 }
             }
             if (match) {
@@ -139,74 +162,57 @@ public class MobilePhoneStructureAdnCriteria {
         }
         return result;
     }
-    public void MobilePhones() {
-        for (int i = 0; i < this.phones.size(); i++) {
-            MobilePhone phone = this.notebookList.get(i);
-            System.out.println((i + 1) + ". " + phone.getModel() + ", RAM: " + phone.getRam() + " GB, Storage: " +
-                    phone.getStorage() + " GB, OS: " + phone.getOs() + ", Color: " + phone.getColor() +
-                    ", Screen Size: " + phone.getScreenSize() + " inches");
-        }
-    }
 
     public static Map<String, Object> getCriteriaFromUser() {
+        // метод приема данных от пользователя через меню с примерами и вывода их в консоль
         Map<String, Object> criteria = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
 
-        int choice = 0;
-        while (choice != 7) {
-            System.out.println("Выберите критерии фильтрации:");
-            System.out.println("1. Оперативная память (ГБ)");
-            System.out.println("2. Накопитель (ГБ)");
-            System.out.println("3. Операционная система");
-            System.out.println("4. Цвет");
-            System.out.println("5. Диагональ экрана (дюймы)");
-            System.out.println("6. Показать все телефоны");
-            System.out.println("7. Завершить выбор");
+        System.out.println("Отфильтруйте список по критериям, основанным на возрастающем порядке введенного значения, после выбора критерия 1-6:");
+        System.out.println("1. Оперативная память (ГБ) (Пример: 4,8,12)");
+        System.out.println("2. Накопитель (ГБ) (Пример: 64,128,256)");
+        System.out.println("3. Операционная система (Пример: Android,iOS)");
+        System.out.println("4. Цвет (Пример: Graphite,Phantom Gray,Morning Mist,Blue,Black,Green)");
+        System.out.println("5. Диагональ экрана (дюймы) (Пример: 4,6)");
+        System.out.println("6. Id (Пример: 1,2 ... 5)");
 
-            do {
-                System.out.print("Введите номер критерия: ");
-                choice = scanner.nextInt();
-            } while (choice < 1 || choice > 7);
-
-            if (choice == 7) {
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.print("Введите значение оперативной памяти (ГБ): ");
+                int ram = scanner.nextInt();
+                criteria.put("Оперативная память", ram);
                 break;
-            }
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Оперативная память (ГБ): ");
-                    int ram = scanner.nextInt();
-                    criteria.put("Оперативная память", ram);
-                    break;
-                case 2:
-                    System.out.print("Накопитель (ГБ): ");
-                    int storage = scanner.nextInt();
-                    criteria.put("Накопитель", storage);
-                    break;
-                case 3:
-                    System.out.print("Операционная система: ");
-                    String os = scanner.next();
-                    criteria.put("Операционная система", os);
-                    break;
-                case 4:
-                    System.out.print("Цвет: ");
-                    String color = scanner.next();
-                    criteria.put("Цвет", color);
-                    break;
-                case 5:
-                    System.out.print("Диагональ экрана (дюймы): ");
-                    double screenSize = scanner.nextDouble();
-                    criteria.put("Диагональ экрана", screenSize);
-                    break;
-                case 6:
-                    System.out.print("Список всех телефонов: ");
-                    System.out.println();
-                    break;
-
-            }
+            case 2:
+                System.out.print("Введите значение накопителя (ГБ): ");
+                int storage = scanner.nextInt();
+                criteria.put("Накопитель", storage);
+                break;
+            case 3:
+                System.out.print("Введите название операционной системы: ");
+                String os = scanner.next();
+                criteria.put("Операционная система", os);
+                break;
+            case 4:
+                System.out.print("Введите название цвета: ");
+                String color = scanner.next();
+                criteria.put("Цвет", color);
+                break;
+            case 5:
+                System.out.print("Введите значение диагонали экрана (дюймы): ");
+                double screenSize = scanner.nextDouble();
+                criteria.put("Диагональ экрана", screenSize);
+                break;
+            case 6:
+                System.out.print("Введите значение Id: ");
+                long id = scanner.nextLong();
+                criteria.put("Id", id);
+                break;
+            default:
+                System.out.println("Неверный выбор критерия.");
+                break;
         }
 
         return criteria;
     }
 }
-
