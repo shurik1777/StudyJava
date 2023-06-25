@@ -25,7 +25,7 @@ public class Main {
 //        MobilePhoneStructureAdnCriteria phone2 = new MobilePhoneStructureAdnCriteria("iPhone 12", 4, 256, "iOS", "Graphite", 6.06, 2);
 //
 //        System.out.println(phone1.equals(phone2) + "\tсравниваем несколько отдельно добавленных экземпляров, идентичных 1 и 2 в наборе");
-//        System.out.println(phones.contains(phone2) + "\tпоиск одного экземпляра наборе");
+//        System.out.println(phones.contains(phone2) + "\tпоиск одного экземпляра в наборе");
 
 
         // Вторая часть заданий
